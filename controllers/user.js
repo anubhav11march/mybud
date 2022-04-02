@@ -387,12 +387,17 @@ exports.addLocation = async (req, res) => {
 };
 
 exports.getSkills = async (req, res) => {
-	const allSkills = await Skills.find({}, { skills: 1 });
-	if (allSkills.length) {
-		const skills = allSkills[0].skills;
-		res.status(200).json(successmessage('all skills', skills));
+	try {
+		const allSkills = await Skills.find({}, { skills: 1 });
+		if (allSkills.length) {
+			const skills = allSkills[0].skills;
+			return res.status(200).json(successmessage('all skills', skills));
+		} else {
+			return res.status(200).json(successmessage('all skills', allSkills));
+		}
+	} catch (err) {
+		res.status(400).json(errormessage(err.message));
 	}
-	res.status(200).json(successmessage('all skills', allSkills));
 };
 
 exports.getfilteredskills = async (req, res) => {

@@ -4,7 +4,8 @@ const User = require('../models/usermodel');
 
 exports.auth = async (req, res, next) => {
 	try {
-		const token = req.headers['authorization'];
+		const header = req.headers['authorization'];
+		const token = header.split(' ')[1];
 
 		if (!token) {
 			return res.status(400).json(errormessage('Token not present!'));
