@@ -467,7 +467,7 @@ exports.sendInvite = async (req, res) => {
 				.json(errormessage('You both have been or are a buddy!'));
 		}
 
-		let url = `https://sheltered-earth-76230.herokuapp.com/user/${user.buddyid}/invite/${inviteuser.buddyid}`;
+		let url = `https://mybud.herokuapp.com/user/${user.buddyid}/invite/${inviteuser.buddyid}`;
 		let result = await sendInviteEmail(
 			inviteuser.email,
 			inviteuser.username,
