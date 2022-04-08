@@ -470,7 +470,7 @@ exports.sendInvite = async (req, res) => {
 		let url = `https://mybud.herokuapp.com/user/${user.buddyid}/invite/${inviteuser.buddyid}`;
 		let result = await sendInviteEmail(
 			inviteuser.email,
-			inviteuser.username,
+			inviteuser.use8rname,
 			user,
 			url
 		);
