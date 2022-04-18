@@ -58,11 +58,12 @@ exports.sendRegisterEmail = async (email, code, username) => {
 				name: username,
 			},
 		],
-		subject: `Verification Link`,
+		subject: `MyBudd Verification Code`,
 
 		htmlContent: `<h1>Email Confirmation</h1>
     <h2>Hello ${username}</h2>
-    <p>Thank you for subscribing. Your Verification code is ${code}</div>`,
+    <p>Your Verification code is ${code}</div>
+	<h2>Team, MyBudd</h2>`,
 	};
 
 	try {
