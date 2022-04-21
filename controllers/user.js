@@ -639,15 +639,13 @@ exports.deleteUser = async (req, res) => {
 
 exports.UpdateFcm = async (req, res) => {
 	try {
-		console.log(req);
-		let user = req.user;
-		let { fcmtoken } = req.body;
-		console.log(user);
-		console.log(fcmtoken);
+		let { fcmtoken, userId } = req.body;
 
 		if (!fcmtoken) {
 			return res.status(400).json(errormessage('Fcmtoken is required!'));
 		}
+
+		const user = await User.findById(userId);
 
 		user.fcmtoken = fcmtoken;
 		await user.save({ validateBeforeSave: false });
