@@ -640,7 +640,7 @@ exports.deleteUser = async (req, res) => {
 exports.UpdateFcm = async (req, res) => {
 	try {
 		console.log(req);
-		let { user } = req;
+		let user = req.user;
 		let { fcmtoken } = req.body;
 		console.log(user);
 		console.log(fcmtoken);
