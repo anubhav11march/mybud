@@ -649,11 +649,8 @@ exports.UpdateFcm = async (req, res) => {
 			return res.status(400).json(errormessage('Fcmtoken is required!'));
 		}
 
-		// check whether email exists or not
-		let user1 = await User.findOne({ _id: user });
-		console.log(user1);
-		user1.fcmtoken = fcmtoken;
-		await user1.save({ validateBeforeSave: false });
+		user.fcmtoken = fcmtoken;
+		await user.save({ validateBeforeSave: false });
 
 		res
 			.status(200)
