@@ -636,3 +636,27 @@ exports.deleteUser = async (req, res) => {
 		res.status(400).json(errormessage(err.message));
 	}
 };
+
+exports.UpdateFcm = async (req, res) => {
+	try {
+		console.log(req.headers);
+		let { user } = req;
+		let { fcmtoken } = req.body;
+
+		if (!fcmtoken) {
+			return res.status(400).json(errormessage('Fcmtoken is required!'));
+		}
+
+		// check whether email exists or not
+		let user1 = await User.findOne({ _id: user });
+
+		user1.fcmtoken = fcmtoken;
+		await user1.save();
+
+		res
+			.status(200)
+			.json(successmessage('Fcmtoken updated Successfuly!', user1));
+	} catch (err) {
+		res.status(400).json(errormessage(err.message));
+	}
+};

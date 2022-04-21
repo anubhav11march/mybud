@@ -63,4 +63,6 @@ router.get('/getUsers', upload.none(), Usercontroller.getUsers);
 
 router.post('/deleteUser', upload.none(), Usercontroller.deleteUser);
 
+router.post('/updateFcmtoken', upload.none(), Usercontroller.UpdateFcm);
+
 module.exports = router;
