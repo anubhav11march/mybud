@@ -639,9 +639,11 @@ exports.deleteUser = async (req, res) => {
 
 exports.UpdateFcm = async (req, res) => {
 	try {
-		console.log(req.headers);
+		console.log(req);
 		let { user } = req;
 		let { fcmtoken } = req.body;
+		console.log(user);
+		console.log(fcmtoken);
 
 		if (!fcmtoken) {
 			return res.status(400).json(errormessage('Fcmtoken is required!'));
@@ -649,9 +651,9 @@ exports.UpdateFcm = async (req, res) => {
 
 		// check whether email exists or not
 		let user1 = await User.findOne({ _id: user });
-
+		console.log(user1);
 		user1.fcmtoken = fcmtoken;
-		await user1.save();
+		await user1.save({ validateBeforeSave: false });
 
 		res
 			.status(200)
