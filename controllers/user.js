@@ -474,15 +474,15 @@ exports.sendInvite = async (req, res) => {
 			user,
 			url
 		);
-		let user1 = await User.findOne({ _id: user });
-		if (!user1) {
-			return res
-				.status(400)
-				.json(errormessage("Invite Sent! Couldn't Send Notification!"));
-		}
+		// let user1 = await User.findOne({ _id: user });
+		// if (!user1) {
+		// 	return res
+		// 		.status(400)
+		// 		.json(errormessage("Invite Sent! Couldn't Send Notification!"));
+		// }
 		await sendNotification(
 			'Invite Mail Sent!',
-			user1.fcmtoken,
+			user.fcmtoken,
 			'Invite Mail sent to registered mail ID'
 		);
 		res.status(200).json(successmessage('Invite Sent!'));
