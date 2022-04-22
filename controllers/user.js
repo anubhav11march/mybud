@@ -420,14 +420,16 @@ exports.getfilteredskills = async (req, res) => {
 
 exports.searchbuddyid = async (req, res) => {
 	try {
-		let { buddyid } = req.query;
+		let { buddyid, email } = req.query;
 		let query = {};
-		if (req.query.buddyid) {
-			query['buddyid'] = req.query.buddyid;
+		if (buddyid) {
+			query['buddyid'] = buddyid;
 		}
-		if (req.query.email) {
-			query['email'] = req.query.email;
+		if (email) {
+			query['email'] = email;
 		}
+		console.log(email);
+		console.log(query);
 		if (!buddyid) {
 			return res.status(400).json(errormessage('No buddyid provided!'));
 		}
