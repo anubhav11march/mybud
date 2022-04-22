@@ -428,11 +428,6 @@ exports.searchbuddyid = async (req, res) => {
 		if (email) {
 			query['email'] = email;
 		}
-		console.log(email);
-		console.log(query);
-		if (!buddyid) {
-			return res.status(400).json(errormessage('No buddyid provided!'));
-		}
 
 		let user = await User.findOne(query);
 		if (!user) {
