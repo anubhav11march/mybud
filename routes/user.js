@@ -67,8 +67,9 @@ router.post('/updateFcmtoken', upload.none(), Usercontroller.UpdateFcm);
 
 router.post('/markChatAsRead', upload.none(), Usercontroller.MarkChatAsRead);
 
-router.post(
+router.get(
 	'/getUnreadMessages',
+	auth,
 	upload.none(),
 	Usercontroller.GetUnreadMessages
 );
