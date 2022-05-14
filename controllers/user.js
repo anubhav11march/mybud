@@ -1,4 +1,5 @@
 const User = require('../models/usermodel');
+const Message = require('../models/chat');
 const MatchSchema = require('../models/match');
 const { v4: uuidv4 } = require('uuid');
 const {
@@ -652,6 +653,22 @@ exports.UpdateFcm = async (req, res) => {
 		const user = await User.findByIdAndUpdate(req.body.userId, req.body);
 
 		res.status(200).json(successmessage('Fcmtoken updated Successfuly!', user));
+	} catch (err) {
+		res.status(400).json(errormessage(err.message));
+	}
+};
+
+exports.MarkChatAsRead = async (req, res) => {
+	try {
+		const findChat = await Message.findOne({
+			members: { $all: [req.body.userId1, req.body.userId2] },
+		});
+		console.log(findChat);
+		for (const rev of findChat.messages) {
+			rev.isRead = true;
+		}
+		await findChat.save({ validateBeforeSave: false });
+		res.status(200).json(successmessage('Marked Successfuly!', findChat));
 	} catch (err) {
 		res.status(400).json(errormessage(err.message));
 	}

@@ -65,4 +65,6 @@ router.post('/deleteUser', upload.none(), Usercontroller.deleteUser);
 
 router.post('/updateFcmtoken', upload.none(), Usercontroller.UpdateFcm);
 
+router.post('/markChatAsRead', upload.none(), Usercontroller.MarkChatAsRead);
+
 module.exports = router;
