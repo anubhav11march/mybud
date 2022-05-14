@@ -20,7 +20,7 @@ exports.auth = async (req, res, next) => {
 			return res.status(400).json(errormessage('Email not verified!'));
 		}
 
-		req.user = userid;
+		req.user = user._id;
 		next();
 	} catch (err) {
 		console.log(err);

@@ -673,3 +673,39 @@ exports.MarkChatAsRead = async (req, res) => {
 		res.status(400).json(errormessage(err.message));
 	}
 };
+
+exports.MarkChatAsRead = async (req, res) => {
+	try {
+		const findChat = await Message.findOne({
+			members: { $all: [req.body.userId1, req.body.userId2] },
+		});
+		console.log(findChat);
+		for (const rev of findChat.messages) {
+			rev.isRead = true;
+		}
+		await findChat.save({ validateBeforeSave: false });
+		res.status(200).json(successmessage('Marked Successfuly!', findChat));
+	} catch (err) {
+		res.status(400).json(errormessage(err.message));
+	}
+};
+
+exports.GetUnreadMessages = async (req, res) => {
+	try {
+		const findChat = await Message.find({
+			members: { $in: [req.user] },
+		});
+		var count = 0;
+		for (const rev of findChat) {
+			for (const ele of rev.messages) {
+				if (ele.reciever === req.user && ele.isRead === false) {
+					count++;
+				}
+			}
+		}
+
+		res.status(200).json(successmessage('Fetched Successfuly!', count));
+	} catch (err) {
+		res.status(400).json(errormessage(err.message));
+	}
+};
