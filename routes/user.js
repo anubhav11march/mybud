@@ -67,6 +67,29 @@ router.post('/updateFcmtoken', upload.none(), Usercontroller.UpdateFcm);
 
 router.post('/markChatAsRead', upload.none(), Usercontroller.MarkChatAsRead);
 
+router.post(
+	'/sendBuddyRequest',
+	auth,
+	upload.none(),
+	Usercontroller.SendBuddyRequest
+);
+
+router.post(
+	'/getMyBuddyRequests',
+	auth,
+	upload.none(),
+	Usercontroller.GetMyBuddyRequests
+);
+
+router.post(
+	'/manageRequest',
+	auth,
+	upload.none(),
+	Usercontroller.AcceptOrRejectBuddyRequest
+);
+
+router.post('/removeBuddy', auth, upload.none(), Usercontroller.RemoveBuddy);
+
 router.get(
 	'/getUnreadMessages',
 	auth,

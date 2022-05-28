@@ -53,6 +53,10 @@ const UserSchema = new mongoose.Schema({
 	forgetpasscode: String,
 	fcmtoken: String,
 	limitDate: String,
+	buddy: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User',
+	},
 	isAdmin: {
 		type: Boolean,
 		default: false,

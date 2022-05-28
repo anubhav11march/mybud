@@ -1,4 +1,5 @@
 const User = require('../models/usermodel');
+const Request = require('../models/requests');
 const Message = require('../models/chat');
 const MatchSchema = require('../models/match');
 const { v4: uuidv4 } = require('uuid');
@@ -469,7 +470,7 @@ exports.sendInvite = async (req, res) => {
 		if (isMatch) {
 			return res
 				.status(400)
-				.json(errormessage('You both have been or are a buddy!'));
+				.json(errormessage('You both have been or are a friend!'));
 		}
 
 		let url = `https://mybud.herokuapp.com/user/${user.buddyid}/invite/${inviteuser.buddyid}`;
@@ -516,7 +517,7 @@ exports.verifyinvite = async (req, res) => {
 		res
 			.status(200)
 			.json(
-				successmessage(`Congratulations ${user1.username} is your buddy now!!`)
+				successmessage(`Congratulations ${user1.username} is your friend now!!`)
 			);
 	} catch (err) {
 		res.status(400).json(errormessage(err.message));
@@ -674,22 +675,6 @@ exports.MarkChatAsRead = async (req, res) => {
 	}
 };
 
-exports.MarkChatAsRead = async (req, res) => {
-	try {
-		const findChat = await Message.findOne({
-			members: { $all: [req.body.userId1, req.body.userId2] },
-		});
-		console.log(findChat);
-		for (const rev of findChat.messages) {
-			rev.isRead = true;
-		}
-		await findChat.save({ validateBeforeSave: false });
-		res.status(200).json(successmessage('Marked Successfuly!', findChat));
-	} catch (err) {
-		res.status(400).json(errormessage(err.message));
-	}
-};
-
 exports.GetUnreadMessages = async (req, res) => {
 	try {
 		const findChat = await Message.find({
@@ -705,6 +690,98 @@ exports.GetUnreadMessages = async (req, res) => {
 		}
 
 		res.status(200).json(successmessage('Fetched Successfuly!', count));
+	} catch (err) {
+		res.status(400).json(errormessage(err.message));
+	}
+};
+
+exports.SendBuddyRequest = async (req, res) => {
+	try {
+		const check = await User.findById(req.body.buddyid);
+		if (Boolean(check.buddy)) {
+			res.status(400).json(errormessage("User is already someone's buddy"));
+		}
+		const checkrequest = await Request.findOne({
+			requestedBy: req.user,
+			requestedUser: req.body.buddyid,
+		});
+		if (checkrequest) {
+			if (checkrequest.isAccepted === false) {
+				res.status(400).json(errormessage('You cannot send request again'));
+			} else if (checkrequest.isPending === true) {
+				res.status(400).json(errormessage('You cannot send request again'));
+			} else {
+				res.status(400).json(errormessage('You cannot send request again'));
+			}
+		}
+		const request = await Request.create({
+			requestedBy: req.user,
+			requestedUser: req.body.buddyid,
+		});
+
+		res.status(200).json(successmessage('Request Sent!', request));
+	} catch (err) {
+		res.status(400).json(errormessage(err.message));
+	}
+};
+
+exports.GetMyBuddyRequests = async (req, res) => {
+	try {
+		const requests = await User.find({
+			requestedUser: req.user,
+			isPending: true,
+		});
+
+		res.status(200).json(successmessage('Fetched Successfully!', requests));
+	} catch (err) {
+		res.status(400).json(errormessage(err.message));
+	}
+};
+
+exports.AcceptOrRejectBuddyRequest = async (req, res) => {
+	try {
+		const checkMe = await User.findById(req.user);
+		if (Boolean(checkMe.buddy)) {
+			res.status(400).json(errormessage("You are already someone's Buddy"));
+		}
+		const checkOther = await User.findById(req.body.requestedBy);
+		if (Boolean(checkOther.buddy)) {
+			res.status(400).json(errormessage("User is someone's else Buddy Now"));
+		}
+		const request = await User.findOne({
+			requestedUser: req.user,
+			requestedBy: req.body.requestedBy,
+			isPending: true,
+		});
+		request.isAccepted = req.body.isAccepted;
+		request.isPending = false;
+		await request.save({ validateBeforeSave: false });
+		if (isAccepted) {
+			const findUser = await User.findById(req.user);
+			findUser.buddy = req.body.requestedBy;
+			await findUser.save({ validateBeforeSave: false });
+			const findBuddy = await User.findById(req.body.requestedBy);
+			findBuddy.buddy = req.user;
+			await findBuddy.save({ validateBeforeSave: false });
+
+			res.status(200).json(successmessage('Request Accepted', request));
+		}
+		res.status(200).json(successmessage('Request Rejected', request));
+	} catch (err) {
+		res.status(400).json(errormessage(err.message));
+	}
+};
+
+exports.RemoveBuddy = async (req, res) => {
+	try {
+		const remove = await User.findById(req.user);
+		const findOther = await User.findOne({ buddy: req.user });
+		remove.buddy = '';
+		await remove.save({ validateBeforeSave: false });
+		findOther.buddy = '';
+		await findOther.save({ validateBeforeSave: false });
+
+		res.status(200).json(successmessage('Removed Successfully!', remove));
 	} catch (err) {
 		res.status(400).json(errormessage(err.message));
 	}
