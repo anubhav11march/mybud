@@ -13,6 +13,7 @@ exports.auth = async (req, res, next) => {
 
 		let userid = jwt.verify(token, process.env.TOKEN_SECRET);
 		let user = await User.findOne({ _id: JSON.parse(userid) });
+		console.log(user);
 		if (!user) {
 			return res.status(400).json(errormessage('Not logged in'));
 		}
@@ -20,10 +21,10 @@ exports.auth = async (req, res, next) => {
 			return res.status(400).json(errormessage('Email not verified!'));
 		}
 
-		req.user = user._id;
+		req.user = userid;
 		next();
 	} catch (err) {
-		console.log(err);
-		res.status(400).json(errormessage(err.message));
+		console.log(JSON.parse(JSON.stringify(err)));
+		res.status(400).json(errormessage(JSON.parse(JSON.stringify(err))));
 	}
 };

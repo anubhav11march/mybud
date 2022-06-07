@@ -678,7 +678,7 @@ exports.MarkChatAsRead = async (req, res) => {
 exports.GetUnreadMessages = async (req, res) => {
 	try {
 		const findChat = await Message.find({
-			members: { $in: [req.user] },
+			members: { $in: [mongoose.Types.ObjectId(JSON.parse(req.user))] },
 		});
 		var count = 0;
 		for (const rev of findChat) {
@@ -702,7 +702,7 @@ exports.SendBuddyRequest = async (req, res) => {
 			res.status(400).json(errormessage("User is already someone's buddy"));
 		}
 		const checkrequest = await Request.findOne({
-			requestedBy: req.user,
+			requestedBy: mongoose.Types.ObjectId(JSON.parse(req.user)),
 			requestedUser: req.body.buddyid,
 		});
 		if (checkrequest) {
@@ -715,7 +715,7 @@ exports.SendBuddyRequest = async (req, res) => {
 			}
 		}
 		const request = await Request.create({
-			requestedBy: req.user,
+			requestedBy: mongoose.Types.ObjectId(JSON.parse(req.user)),
 			requestedUser: req.body.buddyid,
 		});
 
@@ -728,7 +728,7 @@ exports.SendBuddyRequest = async (req, res) => {
 exports.GetMyBuddyRequests = async (req, res) => {
 	try {
 		const requests = await User.find({
-			requestedUser: req.user,
+			requestedUser: mongoose.Types.ObjectId(JSON.parse(req.user)),
 			isPending: true,
 		});
 
@@ -740,7 +740,9 @@ exports.GetMyBuddyRequests = async (req, res) => {
 
 exports.AcceptOrRejectBuddyRequest = async (req, res) => {
 	try {
-		const checkMe = await User.findById(req.user);
+		const checkMe = await User.findById(
+			mongoose.Types.ObjectId(JSON.parse(req.user))
+		);
 		if (Boolean(checkMe.buddy)) {
 			res.status(400).json(errormessage("You are already someone's Buddy"));
 		}
@@ -749,7 +751,7 @@ exports.AcceptOrRejectBuddyRequest = async (req, res) => {
 			res.status(400).json(errormessage("User is someone's else Buddy Now"));
 		}
 		const request = await User.findOne({
-			requestedUser: req.user,
+			requestedUser: mongoose.Types.ObjectId(JSON.parse(req.user)),
 			requestedBy: req.body.requestedBy,
 			isPending: true,
 		});
@@ -757,11 +759,13 @@ exports.AcceptOrRejectBuddyRequest = async (req, res) => {
 		request.isPending = false;
 		await request.save({ validateBeforeSave: false });
 		if (isAccepted) {
-			const findUser = await User.findById(req.user);
+			const findUser = await User.findById(
+				mongoose.Types.ObjectId(JSON.parse(req.user))
+			);
 			findUser.buddy = req.body.requestedBy;
 			await findUser.save({ validateBeforeSave: false });
 			const findBuddy = await User.findById(req.body.requestedBy);
-			findBuddy.buddy = req.user;
+			findBuddy.buddy = mongoose.Types.ObjectId(JSON.parse(req.user));
 			await findBuddy.save({ validateBeforeSave: false });
 
 			res.status(200).json(successmessage('Request Accepted', request));
@@ -774,8 +778,12 @@ exports.AcceptOrRejectBuddyRequest = async (req, res) => {
 
 exports.RemoveBuddy = async (req, res) => {
 	try {
-		const remove = await User.findById(req.user);
-		const findOther = await User.findOne({ buddy: req.user });
+		const remove = await User.findById(
+			mongoose.Types.ObjectId(JSON.parse(req.user))
+		);
+		const findOther = await User.findOne({
+			buddy: mongoose.Types.ObjectId(JSON.parse(req.user)),
+		});
 		remove.buddy = '';
 		await remove.save({ validateBeforeSave: false });
 		findOther.buddy = '';
