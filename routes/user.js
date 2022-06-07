@@ -74,7 +74,7 @@ router.post(
 	Usercontroller.SendBuddyRequest
 );
 
-router.post(
+router.get(
 	'/getMyBuddyRequests',
 	auth,
 	upload.none(),
@@ -88,7 +88,7 @@ router.post(
 	Usercontroller.AcceptOrRejectBuddyRequest
 );
 
-router.post('/removeBuddy', auth, upload.none(), Usercontroller.RemoveBuddy);
+router.get('/removeBuddy', auth, upload.none(), Usercontroller.RemoveBuddy);
 
 router.get(
 	'/getUnreadMessages',

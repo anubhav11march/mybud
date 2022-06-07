@@ -46,30 +46,32 @@ exports.errormessage = (error) => {
 };
 
 exports.sendRegisterEmail = async (email, code, username) => {
-	let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
-	sendSmtpEmail = {
-		sender: {
-			name: 'MyBud',
-			email: 'noreply@eramcapital.com',
-		},
-		to: [
-			{
-				email,
-				name: username,
-			},
-		],
-		subject: `MyBudd Verification Code`,
-
-		htmlContent: `<h1>Email Confirmation</h1>
-    <h2>Hello ${username}</h2>
-    <p>Your Verification code is ${code}</div>
-	<h2>Team, MyBudd</h2>`,
-	};
-
 	try {
+		let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+		sendSmtpEmail = {
+			sender: {
+				name: 'MyBud',
+				email: 'noreply@eramcapital.com',
+			},
+			to: [
+				{
+					email,
+					name: username,
+				},
+			],
+			subject: `MyBudd Verification Code`,
+
+			htmlContent: `<h1>Email Confirmation</h1>
+    		<h2>Hello ${username}</h2>
+    		<p>Your Verification code is ${code}</div>
+			<h2>Team, MyBudd</h2>`,
+		};
+
+		console.log(process.env.SENDINBLUE_API_KEY);
 		let res = await apiInstance.sendTransacEmail(sendSmtpEmail);
 		return res;
 	} catch (err) {
+		console.log(err);
 		return this.errormessage(err.message);
 	}
 };
