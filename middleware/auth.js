@@ -2,7 +2,7 @@ const { errormessage, successmessage } = require('../utils/util');
 const jwt = require('jsonwebtoken');
 const User = require('../models/usermodel');
 
-exports.auth = async (req, res, next) => {
+const auth = async (req, res, next) => {
 	try {
 		const header = req.headers['authorization'];
 		const token = header.split(' ')[1];
@@ -27,3 +27,5 @@ exports.auth = async (req, res, next) => {
 		res.status(400).json(errormessage(err.message));
 	}
 };
+
+module.exports = auth;
