@@ -105,18 +105,18 @@ exports.getCards = async (req, res) => {
 		var month = today.getMonth();
 		var year = today.getFullYear();
 		var todayDate = date + '-' + month + '-' + year;
-		if (searchUser.limitDate) {
-			if (todayDate === searchUser.limitDate) {
-				return res.status(200).json({ message: 'Todays limit is over.' });
-			}
-		}
+		// if (searchUser.limitDate) {
+		// 	if (todayDate === searchUser.limitDate) {
+		// 		return res.status(200).json({ message: 'Todays limit is over.' });
+		// 	}
+		// }
 
 		let { page } = req.query;
-		console.log(page);
-		if (page || parseInt(page) === 200) {
-			searchUser.limitDate = todayDate;
-			await searchUser.save({ validateBeforeSave: false });
-		}
+		// console.log(page);
+		// if (page || parseInt(page) === 200) {
+		// 	searchUser.limitDate = todayDate;
+		// 	await searchUser.save({ validateBeforeSave: false });
+		// }
 		if (!page || !parseInt(page)) {
 			return res
 				.status(400)
