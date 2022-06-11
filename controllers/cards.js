@@ -80,6 +80,11 @@ exports.swipecard = async (req, res) => {
 					matchdoc: newmatch,
 				};
 
+				const clearSwipe = await Swipe.deleteMany({ swipedby: user1 });
+				const clearSwipe2 = await Swipe.deleteMany({ swipedby: user2 });
+				const clearSwipe3 = await Swipe.deleteMany({ swipedon: user1 });
+				const clearSwipe4 = await Swipe.deleteMany({ swipedon: user2 });
+
 				return res.status(200).json(successmessage("It's a Match!", data));
 			}
 
