@@ -82,12 +82,13 @@ io.on('connection', (socket) => {
 	});
 
 	socket.on('privatemessage', async ({ user1, user2, message }) => {
-		// console.log('inside', user1, user2, message);
+		console.log('inside', user1, user2, message);
 		await storeMessage(message, user1, user2);
 		let socketdata = await SocketModel.findOne({
 			userid: mongoose.Types.ObjectId(user2),
 		});
 		if (socketdata) {
+			console.log('ok', message);
 			// if only one is online then only send him the message otherwise just store his messages.
 			socket.to(socketdata.socketid).emit('privatemessage', message);
 		}
