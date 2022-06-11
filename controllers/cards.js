@@ -113,7 +113,7 @@ exports.getCards = async (req, res) => {
 
 		let { page } = req.query;
 		console.log(page);
-		if (page || parseInt(page) === 2) {
+		if (page || parseInt(page) === 200) {
 			searchUser.limitDate = todayDate;
 			await searchUser.save({ validateBeforeSave: false });
 		}
