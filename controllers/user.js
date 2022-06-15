@@ -698,7 +698,7 @@ exports.GetUnreadMessages = async (req, res) => {
 exports.SendBuddyRequest = async (req, res) => {
 	try {
 		const check = await User.find({
-			_id: req.body.buddyid,
+			_id: req.body.requestedUser,
 			buddy: { $exists: true, $ne: '' },
 		});
 		if (check.length) {
@@ -708,7 +708,7 @@ exports.SendBuddyRequest = async (req, res) => {
 		}
 		const checkrequest = await Request.findOne({
 			requestedBy: mongoose.Types.ObjectId(JSON.parse(req.user)),
-			requestedUser: req.body.buddyid,
+			requestedUser: req.body.requestedUser,
 		});
 		if (checkrequest) {
 			if (checkrequest.isAccepted === false) {
@@ -725,12 +725,12 @@ exports.SendBuddyRequest = async (req, res) => {
 					.json(errormessage('You cannot send request again'));
 			}
 		}
-		const request = await Request.create({
-			requestedUser: mongoose.Types.ObjectId(req.body.buddyid),
+		const sendrequest = await Request.create({
+			requestedUser: req.body.requestedUser,
 			requestedBy: mongoose.Types.ObjectId(JSON.parse(req.user)),
 		});
 
-		res.status(200).json(successmessage('Request Sent!', request));
+		res.status(200).json(successmessage('Request Sent!', sendrequest));
 	} catch (err) {
 		res.status(400).json(errormessage(err.message));
 	}
