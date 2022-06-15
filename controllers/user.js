@@ -743,7 +743,7 @@ exports.GetMyBuddyRequests = async (req, res) => {
 		const requests = await Request.find({
 			requestedUser: mongoose.Types.ObjectId(JSON.parse(req.user)),
 			isPending: true,
-		});
+		}).populate('requestedBy');
 
 		res.status(200).json(successmessage('Fetched Successfully!', requests));
 	} catch (err) {
