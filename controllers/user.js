@@ -698,9 +698,10 @@ exports.GetUnreadMessages = async (req, res) => {
 exports.SendBuddyRequest = async (req, res) => {
 	try {
 		const check = await User.find({
-			_id: mongoose.Types.ObjectId(JSON.parse(req.body.buddyid)),
+			_id: req.body.buddyid,
 			buddy: { $exists: true, $ne: '' },
 		});
+		console.log(check);
 		if (check) {
 			res.status(400).json(errormessage("User is already someone's buddy"));
 		}
