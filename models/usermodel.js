@@ -54,8 +54,7 @@ const UserSchema = new mongoose.Schema({
 	fcmtoken: String,
 	limitDate: String,
 	buddy: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'User',
+		type: String,
 	},
 	isAdmin: {
 		type: Boolean,
