@@ -799,7 +799,7 @@ exports.RemoveBuddy = async (req, res) => {
 			mongoose.Types.ObjectId(JSON.parse(req.user))
 		);
 		const findOther = await User.findOne({
-			buddy: mongoose.Types.ObjectId(JSON.parse(req.user)),
+			buddy: JSON.parse(req.user),
 		});
 		remove.buddy = '';
 		await remove.save({ validateBeforeSave: false });
