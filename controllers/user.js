@@ -698,7 +698,7 @@ exports.GetUnreadMessages = async (req, res) => {
 exports.SendBuddyRequest = async (req, res) => {
 	try {
 		const check = await User.findById(req.body.buddyid);
-		if (Boolean(check.buddy)) {
+		if (check.buddy) {
 			res.status(400).json(errormessage("User is already someone's buddy"));
 		}
 		const checkrequest = await Request.findOne({
