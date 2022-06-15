@@ -730,7 +730,7 @@ exports.SendBuddyRequest = async (req, res) => {
 		});
 		sendrequest.requestedUser = req.body.requestedUser;
 		await sendrequest.save({ validateBeforeSave: false });
-		console.log(req.body.requestedUser);
+		console.log(req.body);
 
 		res.status(200).json(successmessage('Request Sent!', sendrequest));
 	} catch (err) {
