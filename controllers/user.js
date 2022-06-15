@@ -698,7 +698,7 @@ exports.GetUnreadMessages = async (req, res) => {
 exports.SendBuddyRequest = async (req, res) => {
 	try {
 		const check = await User.find({
-			_id: req.body.buddyid,
+			_id: mongoose.Types.ObjectId(JSON.parse(req.body.buddyid)),
 			buddy: { $exists: true, $ne: '' },
 		});
 		if (check) {
