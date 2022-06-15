@@ -775,7 +775,7 @@ exports.AcceptOrRejectBuddyRequest = async (req, res) => {
 		request.isAccepted = req.body.isAccepted;
 		request.isPending = false;
 		await request.save({ validateBeforeSave: false });
-		if (isAccepted) {
+		if (req.body.isAccepted) {
 			const findUser = await User.findById(
 				mongoose.Types.ObjectId(JSON.parse(req.user))
 			);
