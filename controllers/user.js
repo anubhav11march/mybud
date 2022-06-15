@@ -702,7 +702,7 @@ exports.SendBuddyRequest = async (req, res) => {
 			buddy: { $exists: true, $ne: '' },
 		});
 		console.log('ok', check);
-		if (check) {
+		if (check.length) {
 			res.status(400).json(errormessage("User is already someone's buddy"));
 		}
 		const checkrequest = await Request.findOne({
