@@ -726,7 +726,7 @@ exports.SendBuddyRequest = async (req, res) => {
 			}
 		}
 		const request = await Request.create({
-			requestedUser: req.body.buddyid,
+			requestedUser: mongoose.Types.ObjectId(req.body.buddyid),
 			requestedBy: mongoose.Types.ObjectId(JSON.parse(req.user)),
 		});
 
