@@ -725,10 +725,9 @@ exports.SendBuddyRequest = async (req, res) => {
 					.json(errormessage('You cannot send request again'));
 			}
 		}
-		const sendrequest = await Request.create({
-			requestedUser: req.body.requestedUser,
-			requestedBy: mongoose.Types.ObjectId(JSON.parse(req.user)),
-		});
+		const sendrequest = await Request.create(req.body);
+		sendrequest.requestedBy = mongoose.Types.ObjectId(JSON.parse(req.user));
+		await sendrequest.save({ validateBeforeSave: false });
 
 		res.status(200).json(successmessage('Request Sent!', sendrequest));
 	} catch (err) {
