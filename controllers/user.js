@@ -701,25 +701,30 @@ exports.SendBuddyRequest = async (req, res) => {
 			_id: req.body.buddyid,
 			buddy: { $exists: true, $ne: '' },
 		});
-		console.log('ok', check);
 		if (check.length) {
-			res.status(400).json(errormessage("User is already someone's buddy"));
+			return res
+				.status(400)
+				.json(errormessage("User is already someone's buddy"));
 		}
 		const checkrequest = await Request.findOne({
 			requestedBy: mongoose.Types.ObjectId(JSON.parse(req.user)),
 			requestedUser: req.body.buddyid,
 		});
-		console.log('ok', checkrequest);
 		if (checkrequest) {
 			if (checkrequest.isAccepted === false) {
-				res.status(400).json(errormessage('You cannot send request again'));
+				return res
+					.status(400)
+					.json(errormessage('You cannot send request again'));
 			} else if (checkrequest.isPending === true) {
-				res.status(400).json(errormessage('You cannot send request again'));
+				return res
+					.status(400)
+					.json(errormessage('You cannot send request again'));
 			} else {
-				res.status(400).json(errormessage('You cannot send request again'));
+				return res
+					.status(400)
+					.json(errormessage('You cannot send request again'));
 			}
 		}
-		console.log('ok2');
 		const request = await Request.create({
 			requestedBy: mongoose.Types.ObjectId(JSON.parse(req.user)),
 			requestedUser: req.body.buddyid,
