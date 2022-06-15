@@ -16,6 +16,9 @@ const RequestSchema = new mongoose.Schema({
 		type: Boolean,
 		default: true,
 	},
+	creation: {
+		type: String,
+	},
 });
 
 module.exports = mongoose.model('Request', RequestSchema);

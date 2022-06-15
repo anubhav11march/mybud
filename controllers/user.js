@@ -729,7 +729,6 @@ exports.SendBuddyRequest = async (req, res) => {
 			requestedBy: mongoose.Types.ObjectId(JSON.parse(req.user)),
 			requestedUser: req.body.buddyid,
 		});
-		console.log('ok', request);
 
 		res.status(200).json(successmessage('Request Sent!', request));
 	} catch (err) {
@@ -739,7 +738,7 @@ exports.SendBuddyRequest = async (req, res) => {
 
 exports.GetMyBuddyRequests = async (req, res) => {
 	try {
-		const requests = await User.find({
+		const requests = await Request.find({
 			requestedUser: mongoose.Types.ObjectId(JSON.parse(req.user)),
 			isPending: true,
 		});
