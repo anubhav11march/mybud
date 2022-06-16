@@ -753,6 +753,7 @@ exports.GetMyBuddyRequests = async (req, res) => {
 
 exports.AcceptOrRejectBuddyRequest = async (req, res) => {
 	try {
+		console.log(req.body);
 		const checkMe = await User.find({
 			_id: mongoose.Types.ObjectId(JSON.parse(req.user)),
 			buddy: { $exists: true, $ne: '' },
@@ -772,18 +773,25 @@ exports.AcceptOrRejectBuddyRequest = async (req, res) => {
 			requestedBy: req.body.requestedBy,
 			isPending: true,
 		});
+		console.log('ok2', request);
+		if (!request) {
+			return res.status(400).json(errormessage('Request not found'));
+		}
 		request.isAccepted = req.body.isAccepted;
 		request.isPending = false;
 		await request.save({ validateBeforeSave: false });
+		console.log('ok3');
 		if (req.body.isAccepted) {
 			const findUser = await User.findById(
 				mongoose.Types.ObjectId(JSON.parse(req.user))
 			);
+			console.log('ok4');
 			findUser.buddy = req.body.requestedBy;
 			await findUser.save({ validateBeforeSave: false });
 			const findBuddy = await User.findById(req.body.requestedBy);
 			findBuddy.buddy = mongoose.Types.ObjectId(JSON.parse(req.user));
 			await findBuddy.save({ validateBeforeSave: false });
+			console.log('ok5');
 
 			res.status(200).json(successmessage('Request Accepted', request));
 		}
