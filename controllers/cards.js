@@ -158,7 +158,7 @@ exports.getCards = async (req, res) => {
 		let userdetails = [];
 
 		if (ismatch.length !== 0) {
-			console.log(mongoose.Types.ObjectId(JSON.parse(user)));
+			//console.log(mongoose.Types.ObjectId(JSON.parse(user)));
 
 			await Promise.all(
 				ismatch.map(async (match) => {

@@ -23,7 +23,6 @@ const Skills = require('../models/skills');
 
 exports.UserSignUp = async (req, res) => {
 	try {
-		console.log(req.body);
 		let { username, password, email, phoneno, isAdmin } = req.body;
 		if (!username || !password || !email || !phoneno) {
 			return res.status(400).json(errormessage('All fields must be present'));
@@ -59,7 +58,6 @@ exports.UserSignUp = async (req, res) => {
 		// checking valid phone no.
 		let reg = '(?:(?:\\+|0{0,2})91(\\s*[\\-]\\s*)?|[0]?)?[789]\\d{9}';
 		let phonereg = new RegExp(reg);
-		console.log(phonereg.test(phoneno));
 		if (!phonereg.test(phoneno)) {
 			return res.status(400).json(errormessage('Enter valid Phone Number'));
 		}
@@ -88,7 +86,6 @@ exports.UserSignUp = async (req, res) => {
 			user.confirmationcode,
 			user.username
 		);
-		console.log(result);
 
 		if (result.error) {
 			console.log('Email not sent!');
@@ -103,7 +100,6 @@ exports.UserSignUp = async (req, res) => {
 
 exports.LoginUser = async (req, res) => {
 	try {
-		console.log(req.headers);
 		let { username, password, fcmtoken } = req.body;
 
 		if (!username || !password || !fcmtoken) {
@@ -210,7 +206,6 @@ exports.resendOTP = async (req, res) => {
 
 exports.Uploadimage = async (req, res) => {
 	try {
-		console.log(req.file);
 		if (!req.file) {
 			return res.status(400).json(errormessage('Image not provided!'));
 		}
@@ -258,7 +253,6 @@ exports.getUserimage = async (req, res) => {
 	try {
 		let { user } = req;
 		let { key } = req.query;
-		console.log(key);
 		let result = await User.findOne({
 			_id: mongoose.Types.ObjectId(JSON.parse(user)),
 		});
@@ -273,7 +267,6 @@ exports.getUserimage = async (req, res) => {
 			usernew = await User.findOne({ 'image.key': key });
 		}
 
-		console.log(user);
 		let location = result.image.location ? result.image.location : '';
 
 		let data = key ? usernew.image.location : location;
@@ -455,7 +448,6 @@ exports.sendInvite = async (req, res) => {
 		}
 
 		let inviteuser = await User.findOne({ buddyid });
-		console.log(inviteuser);
 		if (!inviteuser) {
 			return res.status(404).json(errormessage('No User found!'));
 		}
@@ -582,7 +574,6 @@ exports.editskills = async (req, res) => {
 	try {
 		let { skillsets } = req.body;
 		let { user } = req;
-		console.log('fdgd', skillsets);
 
 		user = mongoose.Types.ObjectId(JSON.parse(user));
 
@@ -664,7 +655,6 @@ exports.MarkChatAsRead = async (req, res) => {
 		const findChat = await Message.findOne({
 			members: { $all: [req.body.userId1, req.body.userId2] },
 		});
-		console.log(findChat);
 		for (const rev of findChat.messages) {
 			rev.isRead = true;
 		}
@@ -730,7 +720,6 @@ exports.SendBuddyRequest = async (req, res) => {
 		});
 		sendrequest.requestedUser = req.body.requestedUser;
 		await sendrequest.save({ validateBeforeSave: false });
-		console.log(req.body);
 
 		res.status(200).json(successmessage('Request Sent!', sendrequest));
 	} catch (err) {
