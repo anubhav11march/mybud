@@ -768,7 +768,7 @@ exports.AcceptOrRejectBuddyRequest = async (req, res) => {
 		if (checkOther.length) {
 			res.status(400).json(errormessage("User is someone's else Buddy Now"));
 		}
-		const request = await User.findOne({
+		const request = await Request.findOne({
 			requestedUser: mongoose.Types.ObjectId(JSON.parse(req.user)),
 			requestedBy: req.body.requestedBy,
 			isPending: true,
