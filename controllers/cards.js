@@ -139,9 +139,10 @@ exports.getCards = async (req, res) => {
 			buddy: { $exists: true, $ne: '' },
 		});
 		if (FindBuddyInUser) {
+			let MyBuddyDetails = await User.findById(FindBuddyInUser.buddy);
 			return res
 				.status(200)
-				.json(successmessage('Already have a buddy!', FindBuddyInUser));
+				.json(successmessage('Already have a buddy!', MyBuddyDetails));
 		}
 		// let isres = await checkValidmatch(ismatch);
 		// // console.log('das',isres);
