@@ -134,27 +134,36 @@ exports.getCards = async (req, res) => {
 		let ismatch = await Match.find({
 			users: { $in: [mongoose.Types.ObjectId(JSON.parse(user))] },
 		});
-		let isres = await checkValidmatch(ismatch);
-		// console.log('das',isres);
-		// console.log(user);
-		//console.log(mongoose.Types.ObjectId(JSON.parse(user)));
-		if (isres.length) {
-			let user1 = await User.findOne({
-				_id: mongoose.Types.ObjectId(JSON.parse(user)),
-			});
-			let user2 = await User.findOne({ _id: isres[0].users[0] });
-			let user3 = await User.findOne({ _id: isres[0].users[1] });
-			let userdetails;
-			if (user1.username === user2.username) {
-				userdetails = user3;
-			} else {
-				userdetails = user2;
-			}
-
+		let FindBuddyInUser = await User.findOne({
+			_id: mongoose.Types.ObjectId(JSON.parse(user)),
+			buddy: { $exists: true, $ne: '' },
+		});
+		if (FindBuddyInUser) {
 			return res
 				.status(200)
-				.json(successmessage('Already have a buddy!', userdetails));
+				.json(successmessage('Already have a buddy!', FindBuddyInUser));
 		}
+		// let isres = await checkValidmatch(ismatch);
+		// // console.log('das',isres);
+		// // console.log(user);
+		// //console.log(mongoose.Types.ObjectId(JSON.parse(user)));
+		// if (isres.length) {
+		// 	let user1 = await User.findOne({
+		// 		_id: mongoose.Types.ObjectId(JSON.parse(user)),
+		// 	});
+		// 	let user2 = await User.findOne({ _id: isres[0].users[0] });
+		// 	let user3 = await User.findOne({ _id: isres[0].users[1] });
+		// 	let userdetails;
+		// 	if (user1.username === user2.username) {
+		// 		userdetails = user3;
+		// 	} else {
+		// 		userdetails = user2;
+		// 	}
+
+		// 	return res
+		// 		.status(200)
+		// 		.json(successmessage('Already have a buddy!', userdetails));
+		// }
 		let userdetails = [];
 
 		if (ismatch.length !== 0) {
