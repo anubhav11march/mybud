@@ -782,9 +782,9 @@ exports.AcceptOrRejectBuddyRequest = async (req, res) => {
 			await findBuddy.save({ validateBeforeSave: false });
 			console.log('ok5');
 
-			res.status(200).json(successmessage('Request Accepted', request));
+			return res.status(200).json(successmessage('Request Accepted', request));
 		}
-		res.status(200).json(successmessage('Request Rejected', request));
+		return res.status(200).json(successmessage('Request Rejected', request));
 	} catch (err) {
 		res.status(400).json(errormessage(err.message));
 	}
@@ -803,7 +803,9 @@ exports.RemoveBuddy = async (req, res) => {
 		findOther.buddy = '';
 		await findOther.save({ validateBeforeSave: false });
 
-		res.status(200).json(successmessage('Removed Successfully!', remove));
+		return res
+			.status(200)
+			.json(successmessage('Removed Successfully!', remove));
 	} catch (err) {
 		res.status(400).json(errormessage(err.message));
 	}
