@@ -508,3 +508,18 @@ exports.getUser = async (req, res) => {
 		res.status(400).json(err.message);
 	}
 };
+
+exports.getMatches = async (req, res) => {
+	try {
+		let matches = await Match.find({
+			users: mongoose.Types.ObjectId(JSON.parse(req.user)),
+		});
+		if (!matches.length) {
+			return res.status(404).json(errormessage('Matches not found!'));
+		}
+
+		return res.status(200).json(successmessage('Matches Details', matches));
+	} catch (err) {
+		res.status(400).json(err.message);
+	}
+};
