@@ -721,6 +721,12 @@ exports.SendBuddyRequest = async (req, res) => {
 		sendrequest.requestedUser = req.body.requestedUser;
 		await sendrequest.save({ validateBeforeSave: false });
 
+		await sendNotification(
+			'Buddy Invite!',
+			check[0].fcmtoken,
+			'You got a buddy invite request!'
+		);
+
 		res.status(200).json(successmessage('Request Sent!', sendrequest));
 	} catch (err) {
 		res.status(400).json(errormessage(err.message));
