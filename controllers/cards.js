@@ -7,6 +7,7 @@ const {
 	checkValidmatch,
 } = require('../utils/util');
 const mongoose = require('mongoose');
+const { sendNotification } = require('../utils/notification');
 const swipemodel = require('../models/swipemodel');
 const Challenge = require('../models/challenges');
 const Task = require('../models/task');
@@ -84,6 +85,12 @@ exports.swipecard = async (req, res) => {
 				const clearSwipe2 = await Swipe.deleteMany({ swipedby: user2 });
 				const clearSwipe3 = await Swipe.deleteMany({ swipedon: user1 });
 				const clearSwipe4 = await Swipe.deleteMany({ swipedon: user2 });
+
+				await sendNotification(
+					'Found a buddy!',
+					user1.fcmtoken,
+					'You have a buddy now, check it out.'
+				);
 
 				return res.status(200).json(successmessage("It's a Match!", data));
 			}
