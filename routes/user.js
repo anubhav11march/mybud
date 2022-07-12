@@ -61,7 +61,7 @@ router.patch('/editskill', auth, upload.none(), Usercontroller.editskills);
 
 router.get('/getUsers', upload.none(), Usercontroller.getUsers);
 
-router.post('/deleteUser', upload.none(), Usercontroller.DeleteAccount);
+router.get('/deleteUser', upload.none(), Usercontroller.DeleteAccount);
 
 router.post('/reportUser', upload.none(), Usercontroller.ReportUser);
 
