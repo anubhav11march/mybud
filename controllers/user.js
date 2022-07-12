@@ -1,5 +1,6 @@
 const User = require('../models/usermodel');
 const Request = require('../models/requests');
+const Report = require('../models/report');
 const Message = require('../models/chat');
 const MatchSchema = require('../models/match');
 const { v4: uuidv4 } = require('uuid');
@@ -812,6 +813,30 @@ exports.RemoveBuddy = async (req, res) => {
 		return res
 			.status(200)
 			.json(successmessage('Removed Successfully!', remove));
+	} catch (err) {
+		res.status(400).json(errormessage(err.message));
+	}
+};
+
+exports.DeleteAccount = async (req, res) => {
+	try {
+		const me = await User.findById(
+			mongoose.Types.ObjectId(JSON.parse(req.user))
+		);
+		me['isDeleted'] = true;
+		await me.save({ validateBeforeSave: false });
+
+		return res.status(200).json(successmessage('Deleted Successfully!', me));
+	} catch (err) {
+		res.status(400).json(errormessage(err.message));
+	}
+};
+
+exports.ReportUser = async (req, res) => {
+	try {
+		const user = await Report.create(req.body);
+
+		return res.status(200).json(successmessage('Reported Successfully!', user));
 	} catch (err) {
 		res.status(400).json(errormessage(err.message));
 	}

@@ -56,6 +56,10 @@ const UserSchema = new mongoose.Schema({
 	buddy: {
 		type: String,
 	},
+	isDeleted: {
+		type: Boolean,
+		default: false,
+	},
 	isAdmin: {
 		type: Boolean,
 		default: false,
