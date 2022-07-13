@@ -820,9 +820,7 @@ exports.RemoveBuddy = async (req, res) => {
 
 exports.DeleteAccount = async (req, res) => {
 	try {
-		const me = await User.findById(
-			mongoose.Types.ObjectId(JSON.parse(req.user))
-		);
+		const me = await User.findOne({ _id: JSON.parse(req.user) });
 		me['isDeleted'] = true;
 		await me.save({ validateBeforeSave: false });
 
