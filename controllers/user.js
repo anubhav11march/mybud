@@ -755,14 +755,14 @@ exports.AcceptOrRejectBuddyRequest = async (req, res) => {
 			buddy: { $exists: true, $ne: '' },
 		});
 		if (checkMe.length) {
-			res.status(400).json(errormessage("You are already someone's Buddy"));
+			return res.status(400).json(errormessage("You are already someone's Buddy"));
 		}
 		const checkOther = await User.find({
 			_id: req.body.requestedBy,
 			buddy: { $exists: true, $ne: '' },
 		});
 		if (checkOther.length) {
-			res.status(400).json(errormessage("User is someone's else Buddy Now"));
+			return res.status(400).json(errormessage("User is someone's else Buddy Now"));
 		}
 		const request = await Request.findOne({
 			requestedUser: mongoose.Types.ObjectId(JSON.parse(req.user)),
