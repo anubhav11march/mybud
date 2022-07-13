@@ -1,6 +1,6 @@
 const User = require('../models/usermodel');
 const Request = require('../models/requests');
-const Report = require('../models/report');
+const Report = require('../models/reports');
 const Message = require('../models/chat');
 const MatchSchema = require('../models/match');
 const { v4: uuidv4 } = require('uuid');
