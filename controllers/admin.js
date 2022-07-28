@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const User = require('../models/usermodel');
+const Challenges = require('../models/challenges');
 const matchModel = require('../models/match');
 const {
 	successmessage,
