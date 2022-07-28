@@ -7,6 +7,7 @@ const {
 	errormessage,
 	verifypassword,
 	generateToken,
+	challenges,
 } = require('../utils/util');
 
 exports.loginAdmin = async (req, res) => {
@@ -150,6 +151,10 @@ exports.UserVerify = async (req, res) => {
 	} catch (err) {
 		res.status(400).json(errormessage(err.message));
 	}
+};
+
+exports.getChallenges = (req, res) => {
+	res.status(200).json(successmessage('All Challenges', challenges));
 };
 
 exports.AllChallenges = async (req, res) => {
