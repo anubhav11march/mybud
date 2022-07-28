@@ -1,36 +1,45 @@
-const {Router}=require('express');
-const {successmessage,errormessage}=require('../utils/util');
-const {Adminauth}=require('../middleware/admin');
-const AdminController=require('../controllers/admin');
-const router=Router();
+const { Router } = require('express');
+const { successmessage, errormessage } = require('../utils/util');
+const { Adminauth } = require('../middleware/admin');
+const AdminController = require('../controllers/admin');
+const router = Router();
+
+router.post('/login', AdminController.loginAdmin);
+
+router.get(
+	'/allusers',
+	// adminAuth,
+	AdminController.getAllUsers
+);
+
+router.get(
+	'/user',
+	// adminAuth,
+	AdminController.getUser
+);
+
+router.get(
+	'/matches',
+	//Adminauth,
+	AdminController.getmatches
+);
 
 router.post(
-    '/login',
-    AdminController.loginAdmin
-)
+	'/userverify',
+	//Adminauth,
+	AdminController.UserVerify
+);
 
 router.get(
-    '/allusers',
-    // adminAuth,
-    AdminController.getAllUsers
-)
-
-router.get(
-    '/user',
-    // adminAuth,
-    AdminController.getUser
-)
-
-router.get(
-    '/matches',
-    //Adminauth,
-    AdminController.getmatches
-)
+	'/challenges',
+	//Adminauth,
+	AdminController.AllChallenges
+);
 
 router.post(
-    '/userverify',
-    //Adminauth,
-    AdminController.UserVerify
-)
+	'/addChallenge',
+	//Adminauth,
+	AdminController.AddChallenges
+);
 
-module.exports=router;
+module.exports = router;
