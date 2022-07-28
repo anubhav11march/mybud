@@ -191,13 +191,19 @@ exports.RemoveChallenges = async (req, res) => {
 	try {
 		let data = await ChallengeList.find();
 		if (req.body.lifestyle) {
-			data[0].Lifestyle.filter((e) => e !== req.body.lifestyle);
+			var gt = data[0].Lifestyle.filter((e) => e !== req.body.lifestyle);
+			data[0].Lifestyle = gt;
+			console.log(data[0].Lifestyle);
 		}
 		if (req.body.health) {
-			data[0].Health.filter((e) => e !== req.body.health);
+			var dt = data[0].Health.filter((e) => e !== req.body.health);
+			data[0].Health = dt;
+			console.log(dt);
 		}
 		if (req.body.pros) {
-			data[0].Pros.filter((e) => e !== req.body.pros);
+			var st = data[0].Pros.filter((e) => e !== req.body.pros);
+			data[0].Pros = st;
+			console.log(st);
 		}
 		await data[0].save({ validateBeforeSave: false });
 		return res.status(200).json(successmessage('Removed Successfuly!', data));
