@@ -1,10 +1,12 @@
 const {challenges,successmessage,errormessage, todayDate }=require('../utils/util');
 const User=require('../models/usermodel');
+const ChallengeList = require('../models/challengeList')
 const Challenge=require('../models/challenges');
 const mongoose=require('mongoose');
 
 exports.getChallenges=(req,res)=>{
-    res.status(200).json(successmessage("All Challenges",challenges));
+    let data = await ChallengeList.find();
+    res.status(200).json(successmessage("All Challenges", data));
 }
 
 exports.takeChallenge=async(req,res)=>{

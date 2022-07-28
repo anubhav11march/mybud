@@ -30,7 +30,7 @@ router.post(
 	AdminController.UserVerify
 );
 
-router.get('/challenges', controller.getChallenges);
+router.get('/challenges', AdminController.getChallenges);
 
 router.get(
 	'/userChallenges',
