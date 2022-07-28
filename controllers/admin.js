@@ -154,7 +154,7 @@ exports.UserVerify = async (req, res) => {
 	}
 };
 
-exports.getChallenges = (req, res) => {
+exports.getChallenges = async (req, res) => {
 	let data = await ChallengeList.find();
 	res.status(200).json(successmessage('All Challenges', data));
 };
@@ -171,13 +171,16 @@ exports.AllChallenges = async (req, res) => {
 exports.AddChallenges = async (req, res) => {
 	try {
 		let data = await ChallengeList.find();
-		if(req.body.lifestyle){
-        data[0].Lifestyle.push(req.body.lifestyle);}
-		if(req.body.health){
-        data[0].Health.push(req.body.health);}
-		if(req.body.pros){
-        data[0].Pros.push(req.body.pros);}
-		await data.save({validateBeforeSave: false})
+		if (req.body.lifestyle) {
+			data[0].Lifestyle.push(req.body.lifestyle);
+		}
+		if (req.body.health) {
+			data[0].Health.push(req.body.health);
+		}
+		if (req.body.pros) {
+			data[0].Pros.push(req.body.pros);
+		}
+		await data.save({ validateBeforeSave: false });
 		return res.status(200).json(successmessage('Created Successfuly!', data));
 	} catch (err) {
 		res.status(400).json(errormessage(err.message));
@@ -187,13 +190,16 @@ exports.AddChallenges = async (req, res) => {
 exports.RemoveChallenges = async (req, res) => {
 	try {
 		let data = await ChallengeList.find();
-		if(req.body.lifestyle){
-        data[0].Lifestyle.filter(e => e !== req.body.lifestyle);}
-		if(req.body.health){
-        data[0].Health.filter(e => e !==req.body.health);}
-		if(req.body.pros){
-        data[0].Pros.filter(e => e !==req.body.pros);}
-		await data.save({validateBeforeSave: false})
+		if (req.body.lifestyle) {
+			data[0].Lifestyle.filter((e) => e !== req.body.lifestyle);
+		}
+		if (req.body.health) {
+			data[0].Health.filter((e) => e !== req.body.health);
+		}
+		if (req.body.pros) {
+			data[0].Pros.filter((e) => e !== req.body.pros);
+		}
+		await data.save({ validateBeforeSave: false });
 		return res.status(200).json(successmessage('Removed Successfuly!', data));
 	} catch (err) {
 		res.status(400).json(errormessage(err.message));
