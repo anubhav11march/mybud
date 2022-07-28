@@ -180,7 +180,7 @@ exports.AddChallenges = async (req, res) => {
 		if (req.body.pros) {
 			data[0].Pros.push(req.body.pros);
 		}
-		await data.save({ validateBeforeSave: false });
+		await data[0].save({ validateBeforeSave: false });
 		return res.status(200).json(successmessage('Created Successfuly!', data));
 	} catch (err) {
 		res.status(400).json(errormessage(err.message));
@@ -199,7 +199,7 @@ exports.RemoveChallenges = async (req, res) => {
 		if (req.body.pros) {
 			data[0].Pros.filter((e) => e !== req.body.pros);
 		}
-		await data.save({ validateBeforeSave: false });
+		await data[0].save({ validateBeforeSave: false });
 		return res.status(200).json(successmessage('Removed Successfuly!', data));
 	} catch (err) {
 		res.status(400).json(errormessage(err.message));

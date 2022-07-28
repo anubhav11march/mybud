@@ -44,4 +44,10 @@ router.post(
 	AdminController.AddChallenges
 );
 
+router.post(
+	'/removeChallenge',
+	//Adminauth,
+	AdminController.RemoveChallenges
+);
+
 module.exports = router;
