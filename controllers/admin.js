@@ -146,10 +146,24 @@ exports.UserVerify = async (req, res) => {
 				.json(successmessage('Verified Successfuly!', user1));
 		}
 
-		let user1 = await User.findOneAndDelete({
+		let user1 = await User.findOne({
 			_id: mongoose.Types.ObjectId(user),
 		});
+		user1.isDeleted = true;
+		await user1.save({ validateBeforeSave: false });
 		res.status(200).json(errormessage('Successfuly Removed User!', user1));
+	} catch (err) {
+		res.status(400).json(errormessage(err.message));
+	}
+};
+
+exports.UserBlock = async (req, res) => {
+	try {
+		let data = await User.findByOneAndUpdate(
+			{ _id: mongoose.Types.ObjectId(req.body.user) },
+			req.body
+		);
+		return res.status(200).json(successmessage('Blocked Successfuly!', data));
 	} catch (err) {
 		res.status(400).json(errormessage(err.message));
 	}

@@ -128,6 +128,17 @@ exports.LoginUser = async (req, res) => {
 				.status(400)
 				.json(errormessage('Email not Verified! Please verify your mail!'));
 		}
+		//checking whether verified email or not
+		if (!user.adminverified) {
+			return res
+				.status(400)
+				.json(errormessage('Account is under verification by admin'));
+		}
+		if (user.isBlocked) {
+			return res
+				.status(400)
+				.json(errormessage('Your account is blocked by admin'));
+		}
 
 		user.fcmtoken = fcmtoken;
 		await user.save();
@@ -755,14 +766,18 @@ exports.AcceptOrRejectBuddyRequest = async (req, res) => {
 			buddy: { $exists: true, $ne: '' },
 		});
 		if (checkMe.length) {
-			return res.status(400).json(errormessage("You are already someone's Buddy"));
+			return res
+				.status(400)
+				.json(errormessage("You are already someone's Buddy"));
 		}
 		const checkOther = await User.find({
 			_id: req.body.requestedBy,
 			buddy: { $exists: true, $ne: '' },
 		});
 		if (checkOther.length) {
-			return res.status(400).json(errormessage("User is someone's else Buddy Now"));
+			return res
+				.status(400)
+				.json(errormessage("User is someone's else Buddy Now"));
 		}
 		const request = await Request.findOne({
 			requestedUser: mongoose.Types.ObjectId(JSON.parse(req.user)),

@@ -56,6 +56,10 @@ const UserSchema = new mongoose.Schema({
 	buddy: {
 		type: String,
 	},
+	isBlocked: {
+		type: Boolean,
+		default: false,
+	},
 	isDeleted: {
 		type: Boolean,
 		default: false,

@@ -56,4 +56,10 @@ router.post(
 	AdminController.sendPushNotification
 );
 
+router.post(
+	'/blockUser',
+	//Adminauth,
+	AdminController.UserBlock
+);
+
 module.exports = router;
