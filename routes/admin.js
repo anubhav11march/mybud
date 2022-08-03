@@ -50,4 +50,10 @@ router.post(
 	AdminController.RemoveChallenges
 );
 
+router.post(
+	'/sendPushNotification',
+	//Adminauth,
+	AdminController.sendPushNotification
+);
+
 module.exports = router;
