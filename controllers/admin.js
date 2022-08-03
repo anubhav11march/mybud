@@ -3,6 +3,7 @@ const User = require('../models/usermodel');
 const Challenges = require('../models/challenges');
 const ChallengeList = require('../models/challengeList');
 const matchModel = require('../models/match');
+const { sendNotification } = require('../utils/notification');
 const {
 	successmessage,
 	errormessage,
@@ -207,6 +208,23 @@ exports.RemoveChallenges = async (req, res) => {
 		}
 		await data[0].save({ validateBeforeSave: false });
 		return res.status(200).json(successmessage('Removed Successfuly!', data));
+	} catch (err) {
+		res.status(400).json(errormessage(err.message));
+	}
+};
+
+exports.sendPushNotification = async (req, res) => {
+	try {
+		for (const rev of req.body.users) {
+			let user = await User.findById(rev);
+			const sendNoti = await sendNotification(
+				req.body.title,
+				user.fcmtoken,
+				req.body.description
+			);
+		}
+
+		return res.status(200).json(successmessage('Send Successfully!'));
 	} catch (err) {
 		res.status(400).json(errormessage(err.message));
 	}
