@@ -62,4 +62,10 @@ router.post(
 	AdminController.UserBlock
 );
 
+router.get(
+	'/suspendedUsers',
+	//Adminauth,
+	AdminController.GetSuspendedUsers
+);
+
 module.exports = router;

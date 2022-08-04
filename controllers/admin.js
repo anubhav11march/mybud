@@ -169,6 +169,15 @@ exports.UserBlock = async (req, res) => {
 	}
 };
 
+exports.GetSuspendedUsers = async (req, res) => {
+	try {
+		let data = await User.find({ isSuspended: true });
+		return res.status(200).json(successmessage('Fetched Successfuly!', data));
+	} catch (err) {
+		res.status(400).json(errormessage(err.message));
+	}
+};
+
 exports.getChallenges = async (req, res) => {
 	let data = await ChallengeList.find();
 	res.status(200).json(successmessage('All Challenges', data));
