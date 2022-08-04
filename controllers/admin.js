@@ -159,7 +159,7 @@ exports.UserVerify = async (req, res) => {
 
 exports.UserBlock = async (req, res) => {
 	try {
-		let data = await User.findByOneAndUpdate(
+		let data = await User.findByIdAndUpdate(
 			{ _id: mongoose.Types.ObjectId(req.body.user) },
 			req.body
 		);
