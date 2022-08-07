@@ -115,26 +115,31 @@ exports.LoginUser = async (req, res) => {
 		// check whether email exists or not
 		let user = await User.findOne({ username });
 		if (!user) {
-			return res.status(400).json(errormessage('Email or password incorrect!'));
+			return res.status(400).json(errormessage('Incorrect Username!'));
 		}
 
 		if (!verifypassword(password, user.password)) {
-			return res.status(400).json(errormessage('Email or password incorrect!'));
+			return res.status(400).json(errormessage('Invalid Credentials!'));
 		}
 
 		//checking whether verified email or not
-		if (!user.status) {
+		if (user.status === false) {
 			return res
 				.status(400)
 				.json(errormessage('Email not Verified! Please verify your mail!'));
 		}
 		//checking whether verified email or not
-		if (!user.adminverified) {
+		if (user.adminverified === false) {
 			return res
 				.status(400)
 				.json(errormessage('Account is under verification by admin'));
 		}
-		if (user.isBlocked) {
+		if (user.isSuspended === true) {
+			return res
+				.status(400)
+				.json(errormessage('Your account is suspended by admin'));
+		}
+		if (user.isBlocked === true) {
 			return res
 				.status(400)
 				.json(errormessage('Your account is blocked by admin'));
