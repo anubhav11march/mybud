@@ -68,6 +68,10 @@ exports.UserSignUp = async (req, res) => {
 		if (ismatch2) {
 			return res.status(400).json(errormessage('Phone Number Already Taken!'));
 		}
+		let ismatch3 = await User.findOne({ username: username });
+		if (ismatch3) {
+			return res.status(400).json(errormessage('Username Already Taken!'));
+		}
 
 		//hashing the password
 		let hashedpassword = hashPassword(password);
