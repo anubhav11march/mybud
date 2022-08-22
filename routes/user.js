@@ -69,6 +69,8 @@ router.post('/updateFcmtoken', upload.none(), Usercontroller.UpdateFcm);
 
 router.post('/markChatAsRead', upload.none(), Usercontroller.MarkChatAsRead);
 
+router.post('/submitQuery', auth, Usercontroller.submitQuery);
+
 router.post(
 	'/sendBuddyRequest',
 	auth,

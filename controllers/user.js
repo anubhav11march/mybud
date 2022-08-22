@@ -2,6 +2,7 @@ const User = require('../models/usermodel');
 const Request = require('../models/requests');
 const Report = require('../models/reports');
 const Message = require('../models/chat');
+const Contact = require('../models/contact');
 const MatchSchema = require('../models/match');
 const { v4: uuidv4 } = require('uuid');
 const {
@@ -855,6 +856,19 @@ exports.ReportUser = async (req, res) => {
 		const user = await Report.create(req.body);
 
 		return res.status(200).json(successmessage('Reported Successfully!', user));
+	} catch (err) {
+		res.status(400).json(errormessage(err.message));
+	}
+};
+
+exports.submitQuery = async (req, res) => {
+	try {
+		let data = await Contact.create({
+			user: mongoose.Types.ObjectId(JSON.parse(req.user)),
+			message: req.body.message,
+		});
+
+		res.status(200).json(successmessage('Submitted Successfully', data));
 	} catch (err) {
 		res.status(400).json(errormessage(err.message));
 	}

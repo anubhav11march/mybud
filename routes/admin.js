@@ -68,4 +68,10 @@ router.get(
 	AdminController.GetSuspendedUsers
 );
 
+router.get(
+	'/getQueries',
+	//Adminauth,
+	AdminController.getQueries
+);
+
 module.exports = router;

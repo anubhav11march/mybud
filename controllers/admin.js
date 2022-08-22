@@ -3,6 +3,7 @@ const User = require('../models/usermodel');
 const Challenges = require('../models/challenges');
 const ChallengeList = require('../models/challengeList');
 const matchModel = require('../models/match');
+const Contact = require('../models/contact');
 const { sendNotification } = require('../utils/notification');
 const {
 	successmessage,
@@ -248,6 +249,16 @@ exports.sendPushNotification = async (req, res) => {
 		}
 
 		return res.status(200).json(successmessage('Send Successfully!'));
+	} catch (err) {
+		res.status(400).json(errormessage(err.message));
+	}
+};
+
+exports.getQueries = async (req, res) => {
+	try {
+		let data = await Contact.find();
+
+		res.status(200).json(successmessage('Fetched Successfully', data));
 	} catch (err) {
 		res.status(400).json(errormessage(err.message));
 	}
