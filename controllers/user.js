@@ -64,6 +64,11 @@ exports.UserSignUp = async (req, res) => {
 			return res.status(400).json(errormessage('Enter valid Phone Number'));
 		}
 
+		let ismatch2 = await User.findOne({ phoneno: phoneno });
+		if (ismatch2) {
+			return res.status(400).json(errormessage('Phone Number Already Taken!'));
+		}
+
 		//hashing the password
 		let hashedpassword = hashPassword(password);
 
