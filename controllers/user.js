@@ -147,12 +147,20 @@ exports.LoginUser = async (req, res) => {
 		if (user.isSuspended === true) {
 			return res
 				.status(400)
-				.json(errormessage('Your account is suspended by admin'));
+				.json(
+					errormessage(
+						'Your account has been suspended temporarily. Kindly contact customer care.'
+					)
+				);
 		}
 		if (user.isBlocked === true) {
 			return res
 				.status(400)
-				.json(errormessage('Your account is blocked by admin'));
+				.json(
+					errormessage(
+						'Your account has been blocked permanently. Kindly contact customer care.'
+					)
+				);
 		}
 
 		user.fcmtoken = fcmtoken;

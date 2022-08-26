@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Message = require('../models/chat');
 const Socket = require('../models/socket');
+const { sendNotification } = require('./notification');
 const { successmessage, errormessage } = require('../utils/util');
 
 exports.checkroom = async (roomid) => {
@@ -86,6 +87,11 @@ exports.storeMessage = async (message, sender, reciever) => {
 	await Message.findOneAndUpdate(findConditions, {
 		$push: { messages: updates },
 	});
+	await sendNotification(
+		'You have got mail.',
+		reciever.fcmtoken,
+		'Your buddy needs you.'
+	);
 };
 
 exports.getMessages = async (user, matcheduser) => {

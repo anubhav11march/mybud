@@ -89,7 +89,7 @@ exports.swipecard = async (req, res) => {
 				await sendNotification(
 					'Found a buddy!',
 					user1.fcmtoken,
-					'You have a buddy now, check it out.'
+					'Hello, Someone wants to be your buddy.'
 				);
 
 				return res.status(200).json(successmessage("It's a Match!", data));

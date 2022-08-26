@@ -142,6 +142,12 @@ exports.UserVerify = async (req, res) => {
 				{ $set: { adminverified: true } },
 				{ new: true }
 			);
+			await sendNotification(
+				'Verification Approved',
+				user.fcmtoken,
+				'Hi, Your accout has been approved. Find your buddy now.'
+			);
+
 			return res
 				.status(200)
 				.json(successmessage('Verified Successfuly!', user1));
