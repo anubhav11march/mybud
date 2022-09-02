@@ -11,6 +11,7 @@ const {
 	verifypassword,
 	generateToken,
 	challenges,
+	sendApprovedEmail,
 } = require('../utils/util');
 
 exports.loginAdmin = async (req, res) => {
@@ -144,9 +145,11 @@ exports.UserVerify = async (req, res) => {
 			);
 			await sendNotification(
 				'Verification Approved',
-				user.fcmtoken,
+				user1.fcmtoken,
 				'Hi, Your accout has been approved. Find your buddy now.'
 			);
+
+			let result = await sendApprovedEmail(user1.email, user1.username);
 
 			return res
 				.status(200)

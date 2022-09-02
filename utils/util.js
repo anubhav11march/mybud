@@ -135,6 +135,37 @@ exports.sendForgotEmail = async (email, username, code) => {
 	}
 };
 
+exports.sendApprovedEmail = async (email, username) => {
+	try {
+		let sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+		sendSmtpEmail = {
+			sender: {
+				name: 'MyBud',
+				email: 'noreply@eramcapital.com',
+			},
+			to: [
+				{
+					email,
+					name: username,
+				},
+			],
+			subject: `MyBudd Account Verified`,
+
+			htmlContent: `<h1>Account Verified</h1>
+    		<h2>Hello ${username}</h2>
+    		<p>Your Account have been approved & verified by the team.</div>
+			<h2>Team, MyBudd</h2>`,
+		};
+
+		console.log(process.env.SENDINBLUE_API_KEY);
+		let res = await apiInstance.sendTransacEmail(sendSmtpEmail);
+		return res;
+	} catch (err) {
+		console.log(err);
+		return this.errormessage(err.message);
+	}
+};
+
 exports.uploadAws = async (params) => {
 	try {
 		let data = await s3.upload(params).promise();
