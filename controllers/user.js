@@ -164,6 +164,7 @@ exports.LoginUser = async (req, res) => {
 		}
 
 		user.fcmtoken = fcmtoken;
+		user.lastLogin = new Date();
 		await user.save();
 
 		let token = generateToken(JSON.stringify(user._id));
@@ -386,6 +387,8 @@ exports.getProfile = async (req, res) => {
 		if (!user) {
 			return res.status(404).json(errormessage('User not found!'));
 		}
+		user.lastLogin = new Date();
+		await user.save();
 		res.status(200).json(successmessage('User Profile', user));
 	} catch (err) {
 		res.status(400).json(errormessage(err.message));

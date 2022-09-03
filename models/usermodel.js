@@ -56,6 +56,7 @@ const UserSchema = new mongoose.Schema({
 	buddy: {
 		type: String,
 	},
+	lastLogin: Date,
 	isSuspended: {
 		type: Boolean,
 		default: false,

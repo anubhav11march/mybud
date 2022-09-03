@@ -248,13 +248,39 @@ exports.RemoveChallenges = async (req, res) => {
 
 exports.sendPushNotification = async (req, res) => {
 	try {
-		for (const rev of req.body.users) {
-			let user = await User.findById(rev);
-			const sendNoti = await sendNotification(
-				req.body.title,
-				user.fcmtoken,
-				req.body.description
-			);
+		if (req.body.status === 0) {
+			let users = await User.find();
+			for (const rev of users) {
+				const sendNoti = await sendNotification(
+					req.body.title,
+					rev.fcmtoken,
+					req.body.description
+				);
+			}
+		}
+		if (req.body.status === 1) {
+			var today = new Date();
+			today.setDate(today.getDate() - 7);
+			let users = await User.find({ lastLogin: { $gte: today } });
+			for (const rev of users) {
+				const sendNoti = await sendNotification(
+					req.body.title,
+					rev.fcmtoken,
+					req.body.description
+				);
+			}
+		}
+		if (req.body.status === 2) {
+			var today = new Date();
+			today.setDate(today.getDate() - 7);
+			let users = await User.find({ lastLogin: { $lt: today } });
+			for (const rev of users) {
+				const sendNoti = await sendNotification(
+					req.body.title,
+					rev.fcmtoken,
+					req.body.description
+				);
+			}
 		}
 
 		return res.status(200).json(successmessage('Send Successfully!'));
