@@ -3,6 +3,7 @@ const Request = require('../models/requests');
 const Report = require('../models/reports');
 const Message = require('../models/chat');
 const Contact = require('../models/contact');
+const Challenges = require('../models/challenges');
 const MatchSchema = require('../models/match');
 const { v4: uuidv4 } = require('uuid');
 const {
@@ -389,7 +390,26 @@ exports.getProfile = async (req, res) => {
 		}
 		user.lastLogin = new Date();
 		await user.save();
-		res.status(200).json(successmessage('User Profile', user));
+
+		let challOn = await Challenges.find({
+			userid: mongoose.Types.ObjectId(JSON.parse(req.user)),
+			isCompleted: false,
+		});
+		let challengeNoti = '';
+		if (challOn.length) {
+			challengeNoti = 'Are you on track? Update your progress';
+		}
+		let count = await Request.find({
+			requestedUser: mongoose.Types.ObjectId(JSON.parse(req.user)),
+			isPending: true,
+		}).count();
+		let matchNoti = '';
+		if (count > 0) {
+			matchNoti = `${count} want to be your buddy, Pick one now.`;
+		}
+
+		var data = { user, matchNoti, challengeNoti };
+		res.status(200).json(successmessage('User Profile', data));
 	} catch (err) {
 		res.status(400).json(errormessage(err.message));
 	}
