@@ -521,9 +521,6 @@ exports.getMatches = async (req, res) => {
 		let matches = await Match.find({
 			users: mongoose.Types.ObjectId(JSON.parse(req.user)),
 		}).populate('users');
-		if (!matches.length) {
-			return res.status(404).json(errormessage('Matches not found!'));
-		}
 
 		return res.status(200).json(successmessage('Matches Details', matches));
 	} catch (err) {
