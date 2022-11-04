@@ -143,11 +143,13 @@ exports.UserVerify = async (req, res) => {
 				{ $set: { adminverified: true } },
 				{ new: true }
 			);
-			await sendNotification(
-				'Verification Approved',
-				user1.fcmtoken,
-				'Hi, Your accout has been approved. Find your buddy now.'
-			);
+			if (user1.fcmtoken) {
+				await sendNotification(
+					'Verification Approved',
+					user1.fcmtoken,
+					'Hi, Your accout has been approved. Find your buddy now.'
+				);
+			}
 
 			let result = await sendApprovedEmail(user1.email, user1.username);
 

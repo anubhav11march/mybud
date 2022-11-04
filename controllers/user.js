@@ -26,7 +26,7 @@ const Skills = require('../models/skills');
 
 exports.UserSignUp = async (req, res) => {
 	try {
-		let { username, password, email, phoneno, isAdmin } = req.body;
+		let { username, password, email, phoneno, fcmtoken, isAdmin } = req.body;
 		if (!username || !password || !email || !phoneno) {
 			return res.status(400).json(errormessage('All fields must be present'));
 		}
@@ -84,6 +84,7 @@ exports.UserSignUp = async (req, res) => {
 			password: hashedpassword,
 			email,
 			phoneno,
+			fcmtoken,
 			buddyid: uuidv4(),
 			confirmationcode,
 		});
