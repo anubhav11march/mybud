@@ -482,7 +482,7 @@ exports.searchbuddyid = async (req, res) => {
 			query['email'] = req.query.email;
 		}
 
-		let user = await User.findOne(query);
+		let user = await User.find(query);
 
 		res.status(200).json(successmessage('Fetched Succcessfully!', user));
 	} catch (err) {
