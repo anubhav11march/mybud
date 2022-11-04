@@ -474,21 +474,17 @@ exports.getfilteredskills = async (req, res) => {
 
 exports.searchbuddyid = async (req, res) => {
 	try {
-		let { buddyid, email } = req.query;
 		let query = {};
-		if (buddyid) {
-			query['buddyid'] = buddyid;
+		if (req.query.buddyid) {
+			query['buddyid'] = req.query.buddyid;
 		}
-		if (email) {
-			query['email'] = email;
+		if (req.query.email) {
+			query['email'] = req.query.email;
 		}
 
 		let user = await User.findOne(query);
-		if (!user) {
-			return res.status(404).json(errormessage('No User found!'));
-		}
 
-		res.status(200).json(successmessage('User found!', user));
+		res.status(200).json(successmessage('Fetched Succcessfully!', user));
 	} catch (err) {
 		res.status(400).json(errormessage(err.message));
 	}
