@@ -113,9 +113,9 @@ exports.UserSignUp = async (req, res) => {
 
 exports.LoginUser = async (req, res) => {
 	try {
-		let { username, password, fcmtoken } = req.body;
+		let { username, password } = req.body;
 
-		if (!username || !password || !fcmtoken) {
+		if (!username || !password) {
 			return res
 				.status(400)
 				.json(errormessage('All fields should be present!'));
@@ -165,7 +165,7 @@ exports.LoginUser = async (req, res) => {
 				);
 		}
 
-		user.fcmtoken = fcmtoken;
+		// user.fcmtoken = fcmtoken;
 		user.lastLogin = new Date();
 		await user.save();
 
