@@ -683,7 +683,7 @@ exports.getUsers = async (req, res) => {
 exports.deleteUser = async (req, res) => {
 	try {
 		const find = User.findByIdAndDelete(req.body.userId);
-		res.status(200).json(successmessage('Successfuly Fetched', find));
+		res.status(200).json(successmessage('Deleted Successfully', find));
 	} catch (err) {
 		res.status(400).json(errormessage(err.message));
 	}
