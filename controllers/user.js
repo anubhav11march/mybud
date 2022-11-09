@@ -105,8 +105,12 @@ exports.UserSignUp = async (req, res) => {
 			console.log('Email not sent!');
 			return res.status(200).json(errormessage('Email not sent!'));
 		}
+		var data = {
+			token,
+			userId: user._id,
+		};
 
-		res.status(200).json(successmessage('User Created!', token));
+		res.status(200).json(successmessage('User Created!', data));
 	} catch (err) {
 		res.status(400).json(errormessage(err.message));
 	}
