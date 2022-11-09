@@ -696,6 +696,7 @@ exports.deleteUser = async (req, res) => {
 exports.UpdateFcm = async (req, res) => {
 	try {
 		let { fcmtoken, userId } = req.body;
+		console.log(req.body);
 
 		if (!fcmtoken || !userId) {
 			return res
