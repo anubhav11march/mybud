@@ -30,6 +30,9 @@ exports.UserSignUp = async (req, res) => {
 		if (!username || !password || !email || !phoneno) {
 			return res.status(400).json(errormessage('All fields must be present'));
 		}
+		if (!fcmtoken) {
+			return res.status(400).json(errormessage('fcmtoken must be present'));
+		}
 		console.log(req.body);
 
 		username = username.trim();
