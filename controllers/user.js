@@ -708,7 +708,7 @@ exports.UpdateFcm = async (req, res) => {
 				.json(errormessage('Fcmtoken & userId is required!'));
 		}
 
-		const user = await User.findByIdAndUpdate(userId, req.body);
+		const user = await User.findByIdAndUpdate(userId, req.body, { new: true });
 
 		res.status(200).json(successmessage('Fcmtoken updated Successfuly!', user));
 	} catch (err) {
