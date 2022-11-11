@@ -293,8 +293,8 @@ exports.sendPushNotification = async (req, res) => {
 
 exports.sendNotification = async (req, res) => {
 	try {
-		let data = await User.findById(req.body.userId);
-		await sendNotification(req.body.title, data.fcmtoken, req.body.description);
+		let user = await User.findById(req.body.userId);
+		await sendNotification(req.body.title, user.fcmtoken, req.body.description);
 
 		return res.status(200).json(successmessage('Send Successfully!'));
 	} catch (err) {
