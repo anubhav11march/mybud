@@ -18,9 +18,8 @@ module.exports = {
 			//  var registrationToken = 'cs_p8u0vQyqxup3W9tU_A3:APA91bEPbIETaVaOpiPSvF0SYrFZAxIF7w8sHYMbT18CA7EPKy1-9U4ujppoKLz-No3v-0dUgypW6-7eqGAMBadlKEtjMGTvFf0lM6M6FjHOkaz5JIXUlM5EBEE89wuAXyjGEmlsFGtY';
 
 			var payload = {
-				data: {
+				notification: {
 					title: title,
-					message,
 					body: message,
 				},
 			};
