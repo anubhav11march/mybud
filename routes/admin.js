@@ -57,6 +57,12 @@ router.post(
 );
 
 router.post(
+	'/sendNotification',
+	//Adminauth,
+	AdminController.sendNotification
+);
+
+router.post(
 	'/blockUser',
 	//Adminauth,
 	AdminController.UserBlock

@@ -291,6 +291,17 @@ exports.sendPushNotification = async (req, res) => {
 	}
 };
 
+exports.sendNotification = async (req, res) => {
+	try {
+		let data = await User.findById(req.body.userId);
+		await sendNotification(req.body.title, data.fcmtoken, req.body.description);
+
+		return res.status(200).json(successmessage('Send Successfully!'));
+	} catch (err) {
+		res.status(400).json(errormessage(err.message));
+	}
+};
+
 exports.getQueries = async (req, res) => {
 	try {
 		let data = await Contact.find();
