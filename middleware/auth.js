@@ -7,7 +7,7 @@ exports.auth = async (req, res, next) => {
 		const header = req.headers['authorization'];
 		const token = header.split(' ')[1];
 
-		if (!token) {
+		if (!token || token === null) {
 			return res.status(400).json(errormessage('Token not present!'));
 		}
 
