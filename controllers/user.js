@@ -80,6 +80,13 @@ exports.UserSignUp = async (req, res) => {
 
 		let confirmationcode = Math.floor(1000 + Math.random() * 9000);
 
+		let result = await sendRegisterEmail(email, confirmationcode, username);
+
+		if (result.error) {
+			console.log('Email not sent!');
+			return res.status(400).json(errormessage('Email not sent!'));
+		}
+
 		let user = new User({
 			username,
 			password: hashedpassword,
@@ -94,17 +101,6 @@ exports.UserSignUp = async (req, res) => {
 		const token = generateToken(JSON.stringify(user._id));
 
 		await user.save();
-
-		let result = await sendRegisterEmail(
-			user.email,
-			user.confirmationcode,
-			user.username
-		);
-
-		if (result.error) {
-			console.log('Email not sent!');
-			return res.status(400).json(errormessage('Email not sent!'));
-		}
 		var data = {
 			token,
 			userId: user._id,
