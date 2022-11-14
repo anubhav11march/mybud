@@ -103,7 +103,7 @@ exports.UserSignUp = async (req, res) => {
 
 		if (result.error) {
 			console.log('Email not sent!');
-			return res.status(200).json(errormessage('Email not sent!'));
+			return res.status(400).json(errormessage('Email not sent!'));
 		}
 		var data = {
 			token,
