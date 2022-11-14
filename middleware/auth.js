@@ -25,6 +25,10 @@ exports.auth = async (req, res, next) => {
 		next();
 	} catch (err) {
 		console.log(JSON.parse(JSON.stringify(err)));
-		res.status(400).json(errormessage(JSON.parse(JSON.stringify(err))));
+		res.status(400).json({
+			success: false,
+			token: req.headers['authorization'],
+			error: JSON.parse(JSON.stringify(err)),
+		});
 	}
 };
